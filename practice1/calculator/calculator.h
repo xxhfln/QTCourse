@@ -2,6 +2,7 @@
 #define CALCULATOR_H
 
 #include <QMainWindow>
+#include <QPushButton>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Calculator; }
@@ -14,6 +15,17 @@ class Calculator : public QMainWindow
 public:
     Calculator(QWidget *parent = nullptr);
     ~Calculator();
+    void init();
+
+    QPushButton *bt_num[10];  // 存放 0-9 十个按键
+
+public slots:
+    void bt_input_clicked();  // 按键输入捕获
+
+private slots:
+    void on_clear_bt_clicked();
+
+    void on_cut_bt_clicked();
 
 private:
     Ui::Calculator *ui;
