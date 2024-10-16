@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QPushButton>
 
+#include "expression.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class Calculator; }
 QT_END_NAMESPACE
@@ -26,6 +28,8 @@ private slots:
     void on_clear_bt_clicked();
 
     void on_cut_bt_clicked();
+
+    void on_cal_bt_clicked();
 
 private:
     Ui::Calculator *ui;

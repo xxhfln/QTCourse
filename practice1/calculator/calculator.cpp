@@ -11,8 +11,8 @@ Calculator::Calculator(QWidget *parent)
     // 初始化
     init();
 
-    // 只能输入数字
-//    ui->show_number->setValidator(new QRegExpValidator(QRegExp("[0-9]+$")));
+    // 设置正则表达式，限制编辑框内只能显示 0-9 +-*/.()这些符号
+    ui->show_number->setValidator(new QRegExpValidator(QRegExp("^[0-9+\\-*/().]+$")));
     // 设置窗口图标
     setWindowIcon(QIcon(":/images/images/calculator.png"));
 
@@ -54,7 +54,13 @@ void Calculator::bt_input_clicked(){
     QString c = btx->text();
     // 追加显示在编辑框
     QString data = ui->show_number->text();
-    ui->show_number->setText(data + c);
+    if (data == "0" && c != "." && data != "0."){
+        ui->show_number->setText(c);
+    }else{
+        data = data + c;
+        ui->show_number->setText(data);
+    }
+
 }
 
 void Calculator::on_clear_bt_clicked(){

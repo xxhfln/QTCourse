@@ -50,6 +50,9 @@
     <property name="dragEnabled">
      <bool>false</bool>
     </property>
+    <property name="readOnly">
+     <bool>false</bool>
+    </property>
     <property name="placeholderText">
      <string/>
     </property>
@@ -440,7 +443,7 @@
         </font>
        </property>
        <property name="text">
-        <string>x</string>
+        <string>*</string>
        </property>
       </widget>
      </item>

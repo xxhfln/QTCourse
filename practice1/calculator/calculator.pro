@@ -9,11 +9,13 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    experssion.cpp \
     main.cpp \
     calculator.cpp
 
 HEADERS += \
-    calculator.h
+    calculator.h \
+    expression.h
 
 FORMS += \
     calculator.ui
