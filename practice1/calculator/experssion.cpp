@@ -1,7 +1,7 @@
 #include "expression.h"
 
 Expression::Expression(){
-
+    init();
 }
 
 Expression::~Expression(){

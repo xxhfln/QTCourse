@@ -20,6 +20,16 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
+   <property name="styleSheet">
+    <string notr="true">.QPushButton:hover{
+	background-color: rgb(145, 193, 231);
+}
+.QPushButton{
+	border: 1px solid black; 
+	border-radius: 0;
+}
+</string>
+   </property>
    <widget class="QLineEdit" name="show_number">
     <property name="geometry">
      <rect>
@@ -103,6 +113,9 @@
        </property>
        <property name="autoFillBackground">
         <bool>false</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
        </property>
        <property name="text">
         <string>1</string>
