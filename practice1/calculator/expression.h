@@ -10,14 +10,19 @@
 #include <QRegularExpression>
 #include <QStack>
 #include <QDebug>
+#include <QMessageBox>
 
-class Expression
+
+class Expression : public QMainWindow
 {
 public:
     Expression();
     ~Expression();
     void init();
-    void splitExpression(QString exp);
+    int splitExpression(QString exp);
+    int compareOp(QString op1,QString op2);
+    int handleOp(QString cur_op);
+    void compute(double num1,double num2,QString ot,double &result);
 
     QStack<double> num_stack; // 操作数栈
     QStack<QString>op_stack;  // 运算符栈

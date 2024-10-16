@@ -33,5 +33,6 @@ private slots:
 
 private:
     Ui::Calculator *ui;
+    Expression *exp;
 };
 #endif // CALCULATOR_H

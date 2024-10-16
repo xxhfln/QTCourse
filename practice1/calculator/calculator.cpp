@@ -10,6 +10,7 @@ Calculator::Calculator(QWidget *parent)
     ui->setupUi(this);
     // 初始化
     init();
+    exp = new Expression();
 
     // 设置正则表达式，限制编辑框内只能显示 0-9 +-*/.()这些符号
     ui->show_number->setValidator(new QRegExpValidator(QRegExp("^[0-9+\\-*/().]+$")));
@@ -78,6 +79,14 @@ void Calculator::on_cut_bt_clicked()
 
 void Calculator::on_cal_bt_clicked()
 {
-
+    QString expression = ui->show_number->text();
+    int ret = exp->splitExpression(expression);
+    qDebug()<<"exp:"<<expression;
+    if (ret){
+        qDebug()<<"error";
+    }else{
+        double result = exp->num_stack.top();
+        ui->show_number->setText(QString::number(result));
+    }
 }
 
