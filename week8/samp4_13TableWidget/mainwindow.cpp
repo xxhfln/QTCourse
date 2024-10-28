@@ -247,3 +247,74 @@ void MainWindow::on_btnAutoWidth_clicked()
 {
     ui->tableInfo->resizeColumnsToContents();
 }
+
+void MainWindow::on_set_students_action_triggered()
+{
+    QString desktopDir = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
+    // 选择Excel文件，获取路径
+    QString xlsFile = QFileDialog::getOpenFileName(NULL,"选择Excel","C:\\Users\\qq156\\Desktop\\QTProjects\\homework\\week8","*.xlsx *.xls");
+    initHeader();   // 设置表头
+    QAxObject *excel = NULL;
+    QAxObject *workbooks = NULL;
+    QAxObject *workbook = NULL;
+    excel = new QAxObject(this);
+    if (!excel->setControl("Excel.Application"))
+    {
+        excel->setControl("ket.Application");
+    }
+    if (!excel)
+    {
+        QMessageBox::critical(NULL, "错误信息", "EXCEL对象丢失");
+        return;
+    }
+    excel->dynamicCall("SetVisible(bool)", false);
+    workbooks = excel->querySubObject("WorkBooks");
+    workbook = workbooks->querySubObject("Open(const QString&)",xlsFile);
+    QAxObject * worksheet = workbook->querySubObject("WorkSheets(int)", 1); // 获取第一个工作sheet
+    QAxObject * usedrange = worksheet->querySubObject("UsedRange");//获取该sheet的使用范围对象
+    QAxObject * rows = usedrange->querySubObject("Rows");
+    QAxObject * columns = usedrange->querySubObject("Columns");
+
+    // 获取行数和列数
+    int intCols = columns->property("Count").toInt();
+    int intRows = rows->property("Count").toInt();
+    int intRowStart = usedrange->property("Row").toInt();
+    int intColStart = usedrange->property("Column").toInt();
+    qDebug()<<"intCols:"<<intCols;
+    qDebug()<<"intRows:"<<intRows;
+    qDebug()<<"intRowStart:"<<intRowStart;
+    qDebug()<<"intColStart:"<<intColStart;
+
+    // 获取excel内容
+    for(int i = intRowStart;i < intRowStart + intRows;i++){
+        for (int j = intColStart;j < intColStart + intCols;j++){
+            QAxObject *cell = worksheet->querySubObject("Cells(int,int)",i,j);
+            QTableWidgetItem *item = new QTableWidgetItem(QString::number(cell->dynamicCall("Value2()").toDouble(),'f',2));
+            ui->tableInfo->setItem(i,j,item);
+            delete cell;
+        }
+    }
+    // 关闭excel
+    workbook->dynamicCall("Close(Boolean)",true);
+    excel->dynamicCall("Quit(void)");
+    delete excel;
+    excel = NULL;
+
+}
+
+void MainWindow::initHeader(){  // 设置表头
+    QStringList headerText;
+    headerText<<"学号"<<"姓名"<<"性别"<<"行政班级"<<"院(系)/部"<<"专业"<<"修读性质";
+    //    ui->tableInfo->setHorizontalHeaderLabels(headerText); //只设置标题
+    ui->tableInfo->setColumnCount(headerText.size());      //设置表格列数
+    for (int i=0;i<ui->tableInfo->columnCount();i++)
+    {
+        QTableWidgetItem *headerItem=new QTableWidgetItem(headerText.at(i));
+        QFont font=headerItem->font();   //获取原有字体设置
+        font.setBold(true);              //设置为粗体
+        font.setPointSize(11);           //字体大小
+        headerItem->setForeground(QBrush(Qt::red));  //设置文字颜色
+        headerItem->setFont(font);       //设置字体
+        ui->tableInfo->setHorizontalHeaderItem(i,headerItem);    //设置表头单元格的item
+    }
+}

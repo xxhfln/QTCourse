@@ -3,6 +3,15 @@
 
 #include    <QMainWindow>
 #include    <QLabel>
+// add new include
+#include <QStandardPaths>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QDebug>
+#include <QAxObject>
+#include <QScopedPointer>
+#include <QList>
+#include <QVariant>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -24,11 +33,15 @@ private:
     QLabel  *labCellType;  //状态栏上用于显示单元格的type
     QLabel  *labStudID;    //状态栏上用于显示单元格的data,
 
+
     void    createItemsARow(int rowNo,QString name,QString sex,QDate birth,
                             QString nation,bool isPM,int score); //为某一行创建items
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+private:
+    void initHeader();  // 设置表头
 
 private slots:
     void on_btnSetHeader_clicked();  //设置表头 按键
@@ -62,6 +75,8 @@ private slots:
     void on_btnAutoHeght_clicked();
 
     void on_btnAutoWidth_clicked();
+
+    void on_set_students_action_triggered();
 
 private:
     Ui::MainWindow *ui;
