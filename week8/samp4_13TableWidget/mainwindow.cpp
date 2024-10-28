@@ -254,6 +254,8 @@ void MainWindow::on_set_students_action_triggered()
     // 选择Excel文件，获取路径
     QString xlsFile = QFileDialog::getOpenFileName(NULL,"选择Excel","C:\\Users\\qq156\\Desktop\\QTProjects\\homework\\week8","*.xlsx *.xls");
     initHeader();   // 设置表头
+    ui->tableInfo->setRowCount(5);//设置数据区行数
+    ui->tableInfo->setAlternatingRowColors(ui->chkBoxRowColor->isChecked()); //设置交替行背景颜色
     QAxObject *excel = NULL;
     QAxObject *workbooks = NULL;
     QAxObject *workbook = NULL;
@@ -285,15 +287,32 @@ void MainWindow::on_set_students_action_triggered()
     qDebug()<<"intRowStart:"<<intRowStart;
     qDebug()<<"intColStart:"<<intColStart;
 
-    // 获取excel内容
-    for(int i = intRowStart;i < intRowStart + intRows;i++){
-        for (int j = intColStart;j < intColStart + intCols;j++){
-            QAxObject *cell = worksheet->querySubObject("Cells(int,int)",i,j);
-            QTableWidgetItem *item = new QTableWidgetItem(QString::number(cell->dynamicCall("Value2()").toDouble(),'f',2));
-            ui->tableInfo->setItem(i,j,item);
-            delete cell;
+    // 寻找自己的学号
+    for (int row = 2;row < intColStart + intCols;row++){
+        QAxObject *cell = worksheet->querySubObject("Cells(int,int)",row,2);
+        if (cell->dynamicCall("Value()").toString() == QString("2022413210146")){
+            for(int i = (row-2)>=(intRowStart+1)?(row-2):(intRowStart+1), table_i = 0;i < intRowStart + intRows;i++,table_i++){
+                for (int j = 2,table_j = 0;j < 4;j++,table_j++){
+                    QAxObject *cell = worksheet->querySubObject("Cells(int,int)",i,j);
+                    QTableWidgetItem *item = new QTableWidgetItem(QString(cell->dynamicCall("Value()").toString()));
+                    item->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+                    if (i == row){  // 自己的学号和姓名加粗变红
+                        QFont font=item->font();   //获取原有字体设置
+                        font.setBold(true);              //设置为粗体
+                        font.setPointSize(11);           //字体大小
+                        item->setForeground(QBrush(Qt::red));  //设置文字颜色
+                        item->setFont(font);       //设置字体
+                    }
+                    ui->tableInfo->setItem(table_i,table_j,item);
+                    delete cell;
+                }
+            }
         }
     }
+    for (int i = 0;i < ui->tableInfo->rowCount();i++){
+        setRowData(i,2);
+    }
+
     // 关闭excel
     workbook->dynamicCall("Close(Boolean)",true);
     excel->dynamicCall("Quit(void)");
@@ -317,4 +336,36 @@ void MainWindow::initHeader(){  // 设置表头
         headerItem->setFont(font);       //设置字体
         ui->tableInfo->setHorizontalHeaderItem(i,headerItem);    //设置表头单元格的item
     }
+}
+
+void MainWindow::setRowData(int row, int start_col){   // 批量设置一行相同的内容
+    //性别
+    QIcon   icon;
+    icon.addFile(":/images/icons/boy.ico");
+    QTableWidgetItem *item=new  QTableWidgetItem("男", MainWindow::ctSex); //type为MainWindow::ctSex
+    item->setIcon(icon);
+    item->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    Qt::ItemFlags flags=Qt::ItemIsSelectable |Qt::ItemIsEnabled;    //不允许编辑
+    item->setFlags(flags);
+    ui->tableInfo->setItem(row,start_col++,item);  //为单元格设置Item
+
+    item = new QTableWidgetItem("22智能制造(软件)4班");
+    item->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    item->setFlags(flags);//不允许编辑
+    ui->tableInfo->setItem(row,start_col++,item);  //为单元格设置Item
+
+    item = new QTableWidgetItem("卓越工程师学院(创新创业学院)");
+    item->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    item->setFlags(flags);//不允许编辑
+    ui->tableInfo->setItem(row,start_col++,item);  //为单元格设置Item
+
+    item = new QTableWidgetItem("智能制造(软件)");
+    item->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    item->setFlags(flags);//不允许编辑
+    ui->tableInfo->setItem(row,start_col++,item);  //为单元格设置Item
+
+    item = new QTableWidgetItem("初修");
+    item->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    item->setFlags(flags);//不允许编辑
+    ui->tableInfo->setItem(row,start_col++,item);  //为单元格设置Item
 }

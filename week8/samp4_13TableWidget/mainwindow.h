@@ -42,6 +42,7 @@ public:
 
 private:
     void initHeader();  // 设置表头
+    void setRowData(int row, int start_col);   // 批量设置一行相同的内容
 
 private slots:
     void on_btnSetHeader_clicked();  //设置表头 按键
