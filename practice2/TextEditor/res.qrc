@@ -16,5 +16,6 @@
         <file>images/status_bar.png</file>
         <file>images/tool_bar.png</file>
         <file>images/word_wrap.png</file>
+        <file>images/open.png</file>
     </qresource>
 </RCC>
