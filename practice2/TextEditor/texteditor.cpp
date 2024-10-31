@@ -6,6 +6,8 @@ TextEditor::TextEditor(QWidget *parent)
     , ui(new Ui::TextEditor)
 {
     ui->setupUi(this);
+
+    this->setWindowIcon(QIcon(":/images/images/main_icon.png"));
 }
 
 TextEditor::~TextEditor()
