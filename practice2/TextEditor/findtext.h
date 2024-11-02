@@ -2,6 +2,7 @@
 #define FINDTEXT_H
 
 #include <QMainWindow>
+#include "common.h"
 
 namespace Ui {
 class FindText;
@@ -14,6 +15,9 @@ class FindText : public QMainWindow
 public:
     explicit FindText(QWidget *parent = nullptr);
     ~FindText();
+
+private:
+    void init();
 
 private:
     Ui::FindText *ui;

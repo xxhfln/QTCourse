@@ -14,6 +14,7 @@ SOURCES += \
     texteditor.cpp
 
 HEADERS += \
+    common.h \
     findtext.h \
     texteditor.h
 

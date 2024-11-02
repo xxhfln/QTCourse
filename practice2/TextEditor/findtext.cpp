@@ -7,11 +7,15 @@ FindText::FindText(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    this->setWindowIcon(QIcon(":/images/images/find.png"));
-    this->setWindowTitle("查找");
+    init();
 }
 
 FindText::~FindText()
 {
     delete ui;
+}
+
+void FindText::init(){
+    this->setWindowIcon(QIcon(":/images/images/find.png"));
+    this->setWindowTitle("查找");
 }

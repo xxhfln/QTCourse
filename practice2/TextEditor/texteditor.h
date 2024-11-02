@@ -3,6 +3,9 @@
 
 #include <QMainWindow>
 
+#include "common.h"
+#include "findtext.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class TextEditor; }
 QT_END_NAMESPACE
@@ -15,7 +18,15 @@ public:
     TextEditor(QWidget *parent = nullptr);
     ~TextEditor();
 
+    FindText *find;
+    QFile file;
+
+private slots:
+    void on_new_action_triggered();
+
 private:
+    void init();    // 初始化
+
     Ui::TextEditor *ui;
 };
 #endif // TEXTEDITOR_H
