@@ -53,16 +53,26 @@
     <property name="title">
      <string>格式(O)</string>
     </property>
+    <addaction name="word_wrap_action"/>
+    <addaction name="display_line_number_action"/>
+    <addaction name="font_action"/>
+    <addaction name="font_color_action"/>
+    <addaction name="separator"/>
+    <addaction name="font_background_color_action"/>
+    <addaction name="editor_background_color_action"/>
    </widget>
    <widget class="QMenu" name="menu_V">
     <property name="title">
      <string>查看(V)</string>
     </property>
+    <addaction name="tool_bar_action"/>
+    <addaction name="status_bar_action"/>
    </widget>
    <widget class="QMenu" name="menu_H">
     <property name="title">
      <string>帮助(H)</string>
     </property>
+    <addaction name="about_action"/>
    </widget>
    <addaction name="menu_F"/>
    <addaction name="menu_E"/>
@@ -244,6 +254,101 @@
    </property>
    <property name="toolTip">
     <string>全选</string>
+   </property>
+  </action>
+  <action name="word_wrap_action">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/images/images/word_wrap.png</normaloff>:/images/images/word_wrap.png</iconset>
+   </property>
+   <property name="text">
+    <string>自动换行</string>
+   </property>
+   <property name="toolTip">
+    <string>自动换行</string>
+   </property>
+  </action>
+  <action name="display_line_number_action">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/images/images/display_line_number.png</normaloff>:/images/images/display_line_number.png</iconset>
+   </property>
+   <property name="text">
+    <string>显示行号</string>
+   </property>
+   <property name="toolTip">
+    <string>显示行号</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+L</string>
+   </property>
+  </action>
+  <action name="font_action">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/images/images/font.png</normaloff>:/images/images/font.png</iconset>
+   </property>
+   <property name="text">
+    <string>字体</string>
+   </property>
+   <property name="toolTip">
+    <string>字体</string>
+   </property>
+  </action>
+  <action name="font_color_action">
+   <property name="text">
+    <string>字体颜色</string>
+   </property>
+   <property name="toolTip">
+    <string>字体颜色</string>
+   </property>
+  </action>
+  <action name="font_background_color_action">
+   <property name="text">
+    <string>字体背景色</string>
+   </property>
+   <property name="toolTip">
+    <string>字体背景色</string>
+   </property>
+  </action>
+  <action name="editor_background_color_action">
+   <property name="text">
+    <string>编辑器背景色</string>
+   </property>
+   <property name="toolTip">
+    <string>编辑器背景色</string>
+   </property>
+  </action>
+  <action name="tool_bar_action">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/images/images/tool_bar.png</normaloff>:/images/images/tool_bar.png</iconset>
+   </property>
+   <property name="text">
+    <string>工具栏</string>
+   </property>
+   <property name="toolTip">
+    <string>工具栏</string>
+   </property>
+  </action>
+  <action name="status_bar_action">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/images/images/status_bar.png</normaloff>:/images/images/status_bar.png</iconset>
+   </property>
+   <property name="text">
+    <string>状态栏</string>
+   </property>
+   <property name="toolTip">
+    <string>状态栏</string>
+   </property>
+  </action>
+  <action name="about_action">
+   <property name="text">
+    <string>关于</string>
+   </property>
+   <property name="toolTip">
+    <string>关于</string>
    </property>
   </action>
  </widget>
