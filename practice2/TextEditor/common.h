@@ -10,5 +10,8 @@
 //#include <QApplication>
 #include <QStandardPaths>
 #include <QByteArray>
+#include <QTextCodec>
+#include <QHBoxLayout>
+#include <QLabel>
 
 #endif // COMMON_H

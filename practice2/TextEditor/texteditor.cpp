@@ -18,6 +18,11 @@ TextEditor::~TextEditor()
 void TextEditor::init(){    // 初始化
     this->setWindowIcon(QIcon(":/images/images/main_icon.png"));    // 设置图标
 
+    // 设置默认编码 UTF-8
+    QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
+    QLabel *encodingLabel = new QLabel("编码:UTF-8",this);
+    ui->statusbar->addWidget(encodingLabel);
+
     ui->textEdit->setEnabled(false);    // 新建文件后才显示文字编辑栏
     ui->save_action->setEnabled(false);
     ui->save_as_action->setEnabled(false);
@@ -58,7 +63,7 @@ void TextEditor::on_new_action_triggered()
     file->close();
 
     ui->textEdit->setEnabled(true);
-    this->setWindowTitle(textfilePath + "-" + this->windowTitle());
+    this->setWindowTitle(textfilePath + " - TextEditor");
 }
 
 
@@ -83,14 +88,17 @@ void TextEditor::on_open_action_triggered()
     ui->textEdit->setText(arr);
 
     ui->textEdit->setEnabled(true);
-    this->setWindowTitle(textfilePath + "-" + this->windowTitle());
+    this->setWindowTitle(textfilePath + " - TextEditor");
     file->close();
 }
 
 
 void TextEditor::on_textEdit_textChanged()
 {
-    qDebug()<<"内容改了";
-
+    if (ui->textEdit->toPlainText() != fileContent){
+        this->setWindowTitle(filePath + " - TextEditor*");
+    }else {
+        this->setWindowTitle(filePath + " - TextEditor");
+    }
 }
 
