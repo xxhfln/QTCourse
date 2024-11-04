@@ -19,10 +19,13 @@ public:
     ~TextEditor();
 
     FindText *find;
-    QFile file;
+    QFile *file;
+    QString filePath;
 
 private slots:
     void on_new_action_triggered();
+
+    void on_open_action_triggered();
 
 private:
     void init();    // 初始化

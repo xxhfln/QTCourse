@@ -8,5 +8,6 @@
 #include <QMessageBox>
 //#include <QApplication>
 #include <QStandardPaths>
+#include <QByteArray>
 
 #endif // COMMON_H
