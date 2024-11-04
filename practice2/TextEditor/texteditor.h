@@ -44,6 +44,12 @@ private slots:
 
     void on_regain_action_triggered();
 
+    void on_cut_action_triggered();
+
+    void on_copy_action_triggered();
+
+    void on_paste_action_triggered();
+
 private:
     void init();    // 初始化
 

@@ -198,3 +198,21 @@ void TextEditor::on_regain_action_triggered()
     ui->textEdit->redo();
 }
 
+
+void TextEditor::on_cut_action_triggered()
+{
+    ui->textEdit->cut();
+}
+
+
+void TextEditor::on_copy_action_triggered()
+{
+    ui->textEdit->copy();
+}
+
+
+void TextEditor::on_paste_action_triggered()
+{
+    ui->textEdit->paste();
+}
+
