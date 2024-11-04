@@ -33,6 +33,8 @@ private slots:
 
     void on_save_action_triggered();
 
+    void on_save_as_action_triggered();
+
 private:
     void init();    // 初始化
 

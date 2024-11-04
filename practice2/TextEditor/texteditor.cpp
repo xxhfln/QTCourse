@@ -121,3 +121,27 @@ void TextEditor::on_save_action_triggered()
     ui->save_action->setEnabled(false);
 }
 
+
+void TextEditor::on_save_as_action_triggered()
+{
+    // 桌面路径
+    QString desktopPath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
+    QString textfilePath = QFileDialog::getSaveFileName(this,"另存为文件",desktopPath,"text(*.txt)");
+    if (textfilePath.isNull()){
+        QMessageBox::information(this,"提示","未另存为文件");
+    }
+//    qDebug()<<textfilePath;
+
+    file = new QFile(textfilePath);
+    filePath = textfilePath;
+    if (!file->open(QIODevice::WriteOnly | QIODevice::Text)){
+        return;
+    }
+    QTextStream out(this->file);
+    out << ui->textEdit->toPlainText();
+    file->close();
+
+    this->setWindowTitle(textfilePath + " - TextEditor");
+    ui->save_action->setEnabled(false);
+}
+
