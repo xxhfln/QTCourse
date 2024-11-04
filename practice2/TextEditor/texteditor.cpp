@@ -97,8 +97,27 @@ void TextEditor::on_textEdit_textChanged()
 {
     if (ui->textEdit->toPlainText() != fileContent){
         this->setWindowTitle(filePath + " - TextEditor*");
+        ui->save_action->setEnabled(true);
     }else {
         this->setWindowTitle(filePath + " - TextEditor");
+        ui->save_action->setEnabled(false);
     }
+    ui->save_as_action->setEnabled(true);
+}
+
+
+void TextEditor::on_save_action_triggered()
+{
+    if (!file->open(QIODevice::WriteOnly | QIODevice::Text)){
+        QMessageBox::warning(this, "ERROR", "无法打开文件");
+        return;
+    }
+    QTextStream out(this->file);
+    out << ui->textEdit->toPlainText();
+
+    file->close();
+    this->fileContent = readTxtFile(filePath);
+    this->setWindowTitle(filePath + " - TextEditor");
+    ui->save_action->setEnabled(false);
 }
 

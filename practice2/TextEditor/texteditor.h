@@ -31,6 +31,8 @@ private slots:
 
     void on_textEdit_textChanged();
 
+    void on_save_action_triggered();
+
 private:
     void init();    // 初始化
 
