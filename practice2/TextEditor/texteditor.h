@@ -18,11 +18,16 @@ public:
     TextEditor(QWidget *parent = nullptr);
     ~TextEditor();
     QString readTxtFile(QString filepath);
+    bool writeTxtFile(QString filepath, QString content);
 
     FindText *find;
     QFile *file;
     QString filePath;
     QString fileContent;
+    bool isSaved = true;
+
+protected:
+    void closeEvent(QCloseEvent *event) override;
 
 private slots:
     void on_new_action_triggered();
@@ -34,6 +39,10 @@ private slots:
     void on_save_action_triggered();
 
     void on_save_as_action_triggered();
+
+    void on_backout_action_triggered();
+
+    void on_regain_action_triggered();
 
 private:
     void init();    // 初始化

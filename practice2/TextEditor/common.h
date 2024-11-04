@@ -13,5 +13,6 @@
 #include <QTextCodec>
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QCloseEvent>
 
 #endif // COMMON_H

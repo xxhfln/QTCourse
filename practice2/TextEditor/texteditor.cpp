@@ -45,6 +45,23 @@ QString TextEditor::readTxtFile(QString filepath){
     return file_content;
 }
 
+
+bool TextEditor::writeTxtFile(QString filepath, QString content){
+    if (filepath.isNull()){
+        return false;
+    }
+    QFile file(filepath);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)){
+        return false;
+    }
+    QTextStream out(&file);
+    out << content;
+
+    file.close();
+    return true;
+}
+
+
 void TextEditor::on_new_action_triggered()
 {
     // 桌面路径
@@ -98,9 +115,11 @@ void TextEditor::on_textEdit_textChanged()
     if (ui->textEdit->toPlainText() != fileContent){
         this->setWindowTitle(filePath + " - TextEditor*");
         ui->save_action->setEnabled(true);
+        isSaved = false;
     }else {
         this->setWindowTitle(filePath + " - TextEditor");
         ui->save_action->setEnabled(false);
+        isSaved = true;
     }
     ui->save_as_action->setEnabled(true);
 }
@@ -119,6 +138,7 @@ void TextEditor::on_save_action_triggered()
     this->fileContent = readTxtFile(filePath);
     this->setWindowTitle(filePath + " - TextEditor");
     ui->save_action->setEnabled(false);
+    isSaved = true;
 }
 
 
@@ -143,5 +163,38 @@ void TextEditor::on_save_as_action_triggered()
 
     this->setWindowTitle(textfilePath + " - TextEditor");
     ui->save_action->setEnabled(false);
+    isSaved = true;
+}
+
+
+void TextEditor::closeEvent(QCloseEvent *event)
+{
+    if (!isSaved){
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(this,"Unsaved Changes","有未保存的文件，是否保存？"
+                ,QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+        if (reply == QMessageBox::Yes){
+            writeTxtFile(filePath, ui->textEdit->toPlainText());
+            event->accept();
+        }else if (reply == QMessageBox::No){
+            event->accept();
+        }else if (reply == QMessageBox::Cancel){
+            event->ignore();
+        }
+    }else {
+        event->accept();
+    }
+}
+
+
+void TextEditor::on_backout_action_triggered()
+{
+    ui->textEdit->undo();
+}
+
+
+void TextEditor::on_regain_action_triggered()
+{
+    ui->textEdit->redo();
 }
 
