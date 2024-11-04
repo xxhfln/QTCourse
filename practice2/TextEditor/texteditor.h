@@ -17,15 +17,19 @@ class TextEditor : public QMainWindow
 public:
     TextEditor(QWidget *parent = nullptr);
     ~TextEditor();
+    QString readTxtFile(QString filepath);
 
     FindText *find;
     QFile *file;
     QString filePath;
+    QString fileContent;
 
 private slots:
     void on_new_action_triggered();
 
     void on_open_action_triggered();
+
+    void on_textEdit_textChanged();
 
 private:
     void init();    // 初始化

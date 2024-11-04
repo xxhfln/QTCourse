@@ -3,6 +3,7 @@
 
 #include <QDebug>
 #include <QFile>
+#include <QIODevice>
 #include <QTextStream>
 #include <QFileDialog>
 #include <QMessageBox>

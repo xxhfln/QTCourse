@@ -19,9 +19,25 @@ void TextEditor::init(){    // 初始化
     this->setWindowIcon(QIcon(":/images/images/main_icon.png"));    // 设置图标
 
     ui->textEdit->setEnabled(false);    // 新建文件后才显示文字编辑栏
+    ui->save_action->setEnabled(false);
+    ui->save_as_action->setEnabled(false);
 
     find = new FindText();
     find->close();
+}
+
+QString TextEditor::readTxtFile(QString filepath){
+    if (filepath.isNull()){
+        return QString();
+    }
+    QFile file(filepath);
+    QString file_content;
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)){
+        QTextStream in(&file);
+        file_content = in.readAll();
+        file.close();
+    }
+    return file_content;
 }
 
 void TextEditor::on_new_action_triggered()
@@ -63,10 +79,18 @@ void TextEditor::on_open_action_triggered()
     }
 
     QByteArray arr = file->readAll(); // 读取文件所有内容，以字节数组形式保存
+    this->fileContent = readTxtFile(textfilePath);
     ui->textEdit->setText(arr);
 
     ui->textEdit->setEnabled(true);
     this->setWindowTitle(textfilePath + "-" + this->windowTitle());
     file->close();
+}
+
+
+void TextEditor::on_textEdit_textChanged()
+{
+    qDebug()<<"内容改了";
+
 }
 
