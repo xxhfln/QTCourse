@@ -26,6 +26,9 @@ void TextEditor::init(){    // 初始化
     ui->textEdit->setEnabled(false);    // 新建文件后才显示文字编辑栏
     ui->save_action->setEnabled(false);
     ui->save_as_action->setEnabled(false);
+    ui->cut_action->setEnabled(false);
+    ui->copy_action->setEnabled(false);
+    ui->paste_action->setEnabled(false);
 
     find = new FindText();
     find->close();
@@ -215,4 +218,26 @@ void TextEditor::on_paste_action_triggered()
 {
     ui->textEdit->paste();
 }
+
+
+void TextEditor::on_select_all_action_triggered()
+{
+    ui->textEdit->selectAll();
+}
+
+
+void TextEditor::on_textEdit_selectionChanged()
+{
+    // 文本未选中时，剪切、复制、粘贴按键不使能
+    if (ui->textEdit->textCursor().hasSelection()){
+        ui->cut_action->setEnabled(true);
+        ui->copy_action->setEnabled(true);
+        ui->paste_action->setEnabled(true);
+    }else {
+        ui->cut_action->setEnabled(false);
+        ui->copy_action->setEnabled(false);
+        ui->paste_action->setEnabled(false);
+    }
+
+};
 

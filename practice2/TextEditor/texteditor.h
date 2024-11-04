@@ -50,6 +50,10 @@ private slots:
 
     void on_paste_action_triggered();
 
+    void on_select_all_action_triggered();
+
+    void on_textEdit_selectionChanged();
+
 private:
     void init();    // 初始化
 
