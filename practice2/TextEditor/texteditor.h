@@ -5,6 +5,7 @@
 
 #include "common.h"
 #include "findtext.h"
+#include "aboutme.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class TextEditor; }
@@ -21,6 +22,7 @@ public:
     bool writeTxtFile(QString filepath, QString content);
 
     FindText *find;
+    AboutMe *about;
     QFile *file;
     QString filePath;
     QString fileContent;
@@ -53,6 +55,8 @@ private slots:
     void on_select_all_action_triggered();
 
     void on_textEdit_selectionChanged();
+
+    void on_about_action_triggered();
 
 private:
     void init();    // 初始化

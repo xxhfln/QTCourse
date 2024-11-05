@@ -32,6 +32,8 @@ void TextEditor::init(){    // 初始化
 
     find = new FindText();
     find->close();
+    about = new AboutMe();
+    about->close();
 }
 
 QString TextEditor::readTxtFile(QString filepath){
@@ -240,4 +242,10 @@ void TextEditor::on_textEdit_selectionChanged()
     }
 
 };
+
+
+void TextEditor::on_about_action_triggered()
+{
+    this->about->show();
+}
 
