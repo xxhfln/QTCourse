@@ -32,6 +32,8 @@ void TextEditor::init(){    // 初始化
 
     find = new FindText();
     find->close();
+    replace = new Replace();
+    replace->close();
     about = new AboutMe();
     about->close();
 }
@@ -247,5 +249,17 @@ void TextEditor::on_textEdit_selectionChanged()
 void TextEditor::on_about_action_triggered()
 {
     this->about->show();
+}
+
+
+void TextEditor::on_find_action_triggered()
+{
+    this->find->show();
+}
+
+
+void TextEditor::on_replace_action_triggered()
+{
+    this->replace->show();
 }
 

@@ -12,17 +12,20 @@ SOURCES += \
     aboutme.cpp \
     findtext.cpp \
     main.cpp \
+    replace.cpp \
     texteditor.cpp
 
 HEADERS += \
     aboutme.h \
     common.h \
     findtext.h \
+    replace.h \
     texteditor.h
 
 FORMS += \
     aboutme.ui \
     findtext.ui \
+    replace.ui \
     texteditor.ui
 
 # Default rules for deployment.

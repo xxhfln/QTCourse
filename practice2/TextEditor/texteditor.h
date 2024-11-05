@@ -5,6 +5,7 @@
 
 #include "common.h"
 #include "findtext.h"
+#include "replace.h"
 #include "aboutme.h"
 
 QT_BEGIN_NAMESPACE
@@ -22,6 +23,7 @@ public:
     bool writeTxtFile(QString filepath, QString content);
 
     FindText *find;
+    Replace *replace;
     AboutMe *about;
     QFile *file;
     QString filePath;
@@ -57,6 +59,10 @@ private slots:
     void on_textEdit_selectionChanged();
 
     void on_about_action_triggered();
+
+    void on_find_action_triggered();
+
+    void on_replace_action_triggered();
 
 private:
     void init();    // 初始化
