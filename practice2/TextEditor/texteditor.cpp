@@ -21,7 +21,10 @@ void TextEditor::init(){    // 初始化
     // 设置默认编码 UTF-8
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
     QLabel *encodingLabel = new QLabel("编码:UTF-8",this);
-    ui->statusbar->addWidget(encodingLabel);
+    ui->statusbar->addPermanentWidget(encodingLabel);
+
+    charsLabel = new QLabel("字数:",this);
+    ui->statusbar->addWidget(charsLabel);
 
     ui->textEdit->setEnabled(false);    // 新建文件后才显示文字编辑栏
     ui->save_action->setEnabled(false);
@@ -83,7 +86,7 @@ void TextEditor::on_new_action_triggered()
     QString desktopPath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
     QString textfilePath = QFileDialog::getSaveFileName(this,"新建文件",desktopPath,"text(*.txt)");
     if (textfilePath.isNull()){
-        QMessageBox::information(this,"提示","未保存选中文件");
+        return;
     }
     qDebug()<<textfilePath;
 
@@ -105,7 +108,6 @@ void TextEditor::on_open_action_triggered()
     QString desktopPath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
     QString textfilePath = QFileDialog::getOpenFileName(this,"打开文件",desktopPath,"text(*.txt)");
     if (textfilePath.isNull()){
-        QMessageBox::critical(this,"ERROR","无法打开文件");
         return;
     }
 
@@ -139,6 +141,9 @@ void TextEditor::on_textEdit_textChanged()
     ui->save_as_action->setEnabled(true);
     ui->find_action->setEnabled(true);
     ui->replace_action->setEnabled(true);
+
+    int total_chars = ui->textEdit->toPlainText().length();
+    charsLabel->setText(QString("字数: %1").arg(total_chars));
 }
 
 
@@ -251,6 +256,15 @@ void TextEditor::on_textEdit_selectionChanged()
         ui->cut_action->setEnabled(false);
         ui->copy_action->setEnabled(false);
         ui->paste_action->setEnabled(false);
+    }
+
+    QTextCursor cursor = ui->textEdit->textCursor();
+    int total_chars = ui->textEdit->toPlainText().length();
+    int selected_chars = cursor.selectedText().length();
+    if (cursor.hasSelection()){
+        charsLabel->setText(QString("字数: %1/%2").arg(selected_chars).arg(total_chars));
+    }else{
+        charsLabel->setText(QString("字数: %1").arg(total_chars));
     }
 
 };

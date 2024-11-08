@@ -34,6 +34,8 @@ public:
     QString last_search_str;
     bool founded = false;
 
+    QLabel *charsLabel;
+
 protected:
     void closeEvent(QCloseEvent *event) override;
 
