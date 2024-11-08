@@ -16,10 +16,16 @@ public:
     explicit FindText(QWidget *parent = nullptr);
     ~FindText();
 
+signals:
+    void findNextRequested(const QString &str);
+    void findPreviousRequested(const QString &str);
+
+private slots:
+    void on_findNext_clicked();
+
 private:
     void init();
 
-private:
     Ui::FindText *ui;
 };
 

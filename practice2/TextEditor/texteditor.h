@@ -30,6 +30,10 @@ public:
     QString fileContent;
     bool isSaved = true;
 
+    QTextCursor cur_search_cursor;
+    QString last_search_str;
+    bool founded = false;
+
 protected:
     void closeEvent(QCloseEvent *event) override;
 
@@ -63,6 +67,8 @@ private slots:
     void on_find_action_triggered();
 
     void on_replace_action_triggered();
+
+    void findText(const QString &str, bool forward);
 
 private:
     void init();    // 初始化

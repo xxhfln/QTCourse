@@ -14,5 +14,7 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QCloseEvent>
+#include <QTextDocument>
+#include <QTextCursor>
 
 #endif // COMMON_H

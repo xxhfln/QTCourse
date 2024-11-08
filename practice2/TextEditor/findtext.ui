@@ -47,7 +47,7 @@
      </font>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="findNext">
     <property name="geometry">
      <rect>
       <x>410</x>
@@ -65,7 +65,7 @@
      <string>查找下一个(F)</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="cancel">
     <property name="geometry">
      <rect>
       <x>410</x>
@@ -83,7 +83,7 @@
      <string>取消</string>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>200</x>
@@ -94,7 +94,7 @@
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QRadioButton" name="radioButton">
+      <widget class="QRadioButton" name="up_btn">
        <property name="font">
         <font>
          <pointsize>12</pointsize>
@@ -106,7 +106,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QRadioButton" name="radioButton_2">
+      <widget class="QRadioButton" name="down_btn">
        <property name="font">
         <font>
          <pointsize>12</pointsize>

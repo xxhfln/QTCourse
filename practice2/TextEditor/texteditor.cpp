@@ -36,6 +36,12 @@ void TextEditor::init(){    // 初始化
     replace->close();
     about = new AboutMe();
     about->close();
+
+    cur_search_cursor = QTextCursor();
+    last_search_str = QString();
+
+    connect(find,&FindText::findPreviousRequested,this,[this](const QString &str){findText(str, true);});
+    connect(find,&FindText::findNextRequested,this,[this](const QString &str){findText(str, false);});
 }
 
 QString TextEditor::readTxtFile(QString filepath){
@@ -261,5 +267,46 @@ void TextEditor::on_find_action_triggered()
 void TextEditor::on_replace_action_triggered()
 {
     this->replace->show();
+}
+
+
+void TextEditor::findText(const QString &str, bool forward){
+    QTextDocument *document = ui->textEdit->document();
+
+    QTextCursor cursor(document);
+    if (cur_search_cursor.isNull()){
+        cur_search_cursor = cursor;
+        founded = false;
+    }
+    if (str != last_search_str){
+        cur_search_cursor = cursor;
+        founded = false;
+    }
+
+    if ((!cur_search_cursor.isNull() && !cur_search_cursor.atEnd())
+        || (cur_search_cursor.atEnd() && forward)){
+        cursor = forward?document->find(str,cur_search_cursor,QTextDocument::FindBackward):
+                     document->find(str,cur_search_cursor);
+        if (!cursor.isNull()){
+            cursor.movePosition(QTextCursor::NoMove,QTextCursor::KeepAnchor);
+            ui->textEdit->setTextCursor(cursor);
+            cur_search_cursor = cursor;
+            founded = true;
+        }else if(cursor.isNull() && !founded){
+            QMessageBox::information(this,"提示","无法找到您所查找的内容");
+        }else{  // 已是最后一处
+            QMessageBox::information(this,"提示","已完成对文档的搜索");
+            cur_search_cursor = QTextCursor();
+        }
+
+
+    }else if (cur_search_cursor.atEnd() && founded){
+        QMessageBox::information(this,"提示","已完成对文档的搜索");
+        cur_search_cursor = QTextCursor();
+    }else{
+        QMessageBox::information(this,"提示","无法找到您所查找的内容");
+    }
+
+    last_search_str = str; // 记录上次搜索的文本
 }
 
