@@ -70,6 +70,12 @@ private slots:
 
     void findText(const QString &str, bool forward);
 
+    void on_font_action_triggered();
+
+    void on_font_color_action_triggered();
+
+    void on_font_background_color_action_triggered();
+
 private:
     void init();    // 初始化
 

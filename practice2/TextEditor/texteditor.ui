@@ -312,6 +312,12 @@
    </property>
   </action>
   <action name="word_wrap_action">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="res.qrc">
      <normaloff>:/images/images/word_wrap.png</normaloff>:/images/images/word_wrap.png</iconset>
@@ -324,6 +330,9 @@
    </property>
   </action>
   <action name="display_line_number_action">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="res.qrc">
      <normaloff>:/images/images/display_line_number.png</normaloff>:/images/images/display_line_number.png</iconset>
@@ -375,6 +384,12 @@
    </property>
   </action>
   <action name="tool_bar_action">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="res.qrc">
      <normaloff>:/images/images/tool_bar.png</normaloff>:/images/images/tool_bar.png</iconset>
@@ -387,6 +402,12 @@
    </property>
   </action>
   <action name="status_bar_action">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="res.qrc">
      <normaloff>:/images/images/status_bar.png</normaloff>:/images/images/status_bar.png</iconset>
@@ -399,6 +420,12 @@
    </property>
   </action>
   <action name="about_action">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>关于</string>
    </property>

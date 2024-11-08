@@ -29,6 +29,8 @@ void TextEditor::init(){    // 初始化
     ui->cut_action->setEnabled(false);
     ui->copy_action->setEnabled(false);
     ui->paste_action->setEnabled(false);
+    ui->find_action->setEnabled(false);
+    ui->replace_action->setEnabled(false);
 
     find = new FindText();
     find->close();
@@ -135,6 +137,8 @@ void TextEditor::on_textEdit_textChanged()
         isSaved = true;
     }
     ui->save_as_action->setEnabled(true);
+    ui->find_action->setEnabled(true);
+    ui->replace_action->setEnabled(true);
 }
 
 
@@ -308,5 +312,58 @@ void TextEditor::findText(const QString &str, bool forward){
     }
 
     last_search_str = str; // 记录上次搜索的文本
+}
+
+
+void TextEditor::on_font_action_triggered()
+{
+    bool ok;
+    QTextCursor cursor = ui->textEdit->textCursor();
+    QFont selection_font("微软雅黑",15,15,false);
+    if (cursor.hasSelection()){
+        selection_font = cursor.charFormat().font();
+    }else{
+        QMessageBox::information(this,"提示","请先选择一段文本");
+        return;
+    }
+    QFont font = QFontDialog::getFont(&ok,selection_font,this,"选择字体");
+    if (ok){
+//        ui->textEdit->setFont(font); // 设置全部字体变化
+        ui->textEdit->setCurrentFont(font); // 设置选中字体变化
+    }
+}
+
+
+void TextEditor::on_font_color_action_triggered()
+{
+    QTextCursor cursor = ui->textEdit->textCursor();
+    QColor selection_color("black");
+    if (cursor.hasSelection()){
+        selection_color = cursor.charFormat().foreground().color();
+    }else{
+        QMessageBox::information(this,"提示","请先选择一段文本");
+        return;
+    }
+    QColor color = QColorDialog::getColor(selection_color,this,"选择颜色");
+    if (color.isValid()){
+        ui->textEdit->setTextColor(color);
+    }
+}
+
+
+void TextEditor::on_font_background_color_action_triggered()
+{
+    QTextCursor cursor = ui->textEdit->textCursor();
+    QColor selection_color("black");
+    if (cursor.hasSelection()){
+        selection_color = cursor.charFormat().foreground().color();
+    }else{
+        QMessageBox::information(this,"提示","请先选择一段文本");
+        return;
+    }
+    QColor color = QColorDialog::getColor(selection_color,this,"选择颜色");
+    if (color.isValid()){
+        ui->textEdit->setTextBackgroundColor(color);
+    }
 }
 

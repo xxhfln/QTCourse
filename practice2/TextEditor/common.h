@@ -6,6 +6,7 @@
 #include <QIODevice>
 #include <QTextStream>
 #include <QFileDialog>
+#include <QFontDialog>
 #include <QMessageBox>
 //#include <QApplication>
 #include <QStandardPaths>
@@ -16,5 +17,7 @@
 #include <QCloseEvent>
 #include <QTextDocument>
 #include <QTextCursor>
+#include <QColor>
+#include <QColorDialog>
 
 #endif // COMMON_H
