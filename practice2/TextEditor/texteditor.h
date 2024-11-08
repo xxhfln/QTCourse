@@ -76,6 +76,12 @@ private slots:
 
     void on_font_background_color_action_triggered();
 
+    void on_word_wrap_action_triggered(bool checked);
+
+    void on_tool_bar_action_triggered(bool checked);
+
+    void on_status_bar_action_triggered(bool checked);
+
 private:
     void init();    // 初始化
 

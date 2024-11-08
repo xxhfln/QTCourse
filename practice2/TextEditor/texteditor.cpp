@@ -367,3 +367,25 @@ void TextEditor::on_font_background_color_action_triggered()
     }
 }
 
+
+void TextEditor::on_word_wrap_action_triggered(bool checked)
+{
+    if (checked){
+        ui->textEdit->setLineWrapMode(QTextEdit::WidgetWidth);
+    }else{
+        ui->textEdit->setLineWrapMode(QTextEdit::NoWrap);
+    }
+}
+
+
+void TextEditor::on_tool_bar_action_triggered(bool checked)
+{
+    ui->toolBar->setVisible(checked);
+}
+
+
+void TextEditor::on_status_bar_action_triggered(bool checked)
+{
+    ui->statusbar->setVisible(checked);
+}
+
