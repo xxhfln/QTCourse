@@ -3,6 +3,9 @@
 
 #include <QMainWindow>
 
+#include "common.h"
+#include "login.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class HospitalUserSystem; }
 QT_END_NAMESPACE

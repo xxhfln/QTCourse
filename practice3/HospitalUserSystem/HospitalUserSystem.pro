@@ -9,14 +9,33 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    doctorview.cpp \
+    labview.cpp \
+    login.cpp \
     main.cpp \
-    hospitalusersystem.cpp
+    hospitalusersystem.cpp \
+    patienteditview.cpp \
+    patientview.cpp \
+    welcome.cpp
 
 HEADERS += \
-    hospitalusersystem.h
+    common.h \
+    doctorview.h \
+    hospitalusersystem.h \
+    labview.h \
+    login.h \
+    patienteditview.h \
+    patientview.h \
+    welcome.h
 
 FORMS += \
-    hospitalusersystem.ui
+    doctorview.ui \
+    hospitalusersystem.ui \
+    labview.ui \
+    login.ui \
+    patienteditview.ui \
+    patientview.ui \
+    welcome.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
