@@ -3,5 +3,11 @@
 
 #include <QDebug>
 #include <QMessageBox>
+#include <QSqlDatabase>
+#include <QSqlError>
+#include <QSqlQuery>
+#include <QSqlTableModel>
+#include <QSqlRecord>
+#include <QObject>
 
 #endif // COMMON_H

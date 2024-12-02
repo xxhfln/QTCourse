@@ -20,5 +20,7 @@ public:
 
 private:
     Ui::HospitalUserSystem *ui;
+
+    QSqlTableModel *model;
 };
 #endif // HOSPITALUSERSYSTEM_H
