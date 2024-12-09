@@ -12,3 +12,9 @@ PatientEditView::~PatientEditView()
 {
     delete ui;
 }
+
+void PatientEditView::on_pushButton_2_clicked()
+{
+    emit cancel();
+}
+

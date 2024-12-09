@@ -1,9 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <author/>
- <comment/>
- <exportmacro/>
  <class>LabView</class>
- <widget name="LabView" class="QWidget">
+ <widget class="QWidget" name="LabView">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -13,9 +11,9 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>科室管理</string>
   </property>
  </widget>
- <pixmapfunction/>
+ <resources/>
  <connections/>
 </ui>

@@ -12,3 +12,21 @@ Welcome::~Welcome()
 {
     delete ui;
 }
+
+void Welcome::on_pushButton_clicked()
+{
+    emit goDepartment();
+}
+
+
+void Welcome::on_pushButton_2_clicked()
+{
+    emit goDoctor();
+}
+
+
+void Welcome::on_pushButton_3_clicked()
+{
+    emit goPatient();
+}
+

@@ -38,7 +38,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QLabel" name="login_label">
+       <widget class="QLabel" name="label">
         <property name="font">
          <font>
           <family>思源黑体 Heavy</family>

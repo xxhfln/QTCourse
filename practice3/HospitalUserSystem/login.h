@@ -4,6 +4,7 @@
 #include <QMainWindow>
 
 #include "common.h"
+#include "database.h"
 
 namespace Ui {
 class Login;
@@ -17,8 +18,15 @@ public:
     explicit Login(QWidget *parent = nullptr);
     ~Login();
 
+signals:
+    void loginSuccess();
+
+private slots:
+    void on_btn_login_clicked();
+
 private:
     Ui::Login *ui;
+    DataBase *db;
 };
 
 #endif // LOGIN_H

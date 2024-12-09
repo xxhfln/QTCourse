@@ -15,6 +15,12 @@ public:
     explicit PatientView(QWidget *parent = nullptr);
     ~PatientView();
 
+signals:
+    void goPatientEdit();
+
+private slots:
+    void on_pushButton_2_clicked();
+
 private:
     Ui::PatientView *ui;
 };
