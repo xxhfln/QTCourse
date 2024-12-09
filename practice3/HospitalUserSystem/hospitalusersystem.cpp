@@ -53,14 +53,14 @@ void HospitalUserSystem::goPatientView()
 {
     PatientView* pa = new PatientView();
     goView(pa);
-    connect(pa,&PatientView::goPatientEdit,this,&HospitalUserSystem::goPatientEditView);
+    connect(pa,SIGNAL(goPatientEdit(int)),this,SLOT(goPatientEditView(int)));
 }
 
-void HospitalUserSystem::goPatientEditView()
+void HospitalUserSystem::goPatientEditView(int index)
 {
-    PatientEditView* pa = new PatientEditView();
+    PatientEditView* pa = new PatientEditView(this, index);
     goView(pa);
-    connect(pa,&PatientEditView::cancel,this,&HospitalUserSystem::goPatientView);
+    connect(pa,&PatientEditView::cancel,this,&HospitalUserSystem::goPreviousView);
 }
 
 void HospitalUserSystem::goPreviousView()
@@ -87,6 +87,8 @@ void HospitalUserSystem::on_stackedWidget_currentChanged(int arg1)
 {
     ui->btn_back->setEnabled(ui->stackedWidget->count() > 1);
     ui->btn_back->setEnabled(ui->stackedWidget->currentWidget()->windowTitle() != "登录");
+    ui->btn_back->setEnabled(ui->stackedWidget->currentWidget()->windowTitle() != "患者编辑");
+    ui->btn_exit->setEnabled(ui->stackedWidget->currentWidget()->windowTitle() != "患者编辑");
 //    qDebug()<<"11";
 }
 

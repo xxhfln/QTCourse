@@ -20,7 +20,7 @@
       <widget class="QLineEdit" name="lineEdit"/>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="btn_find">
        <property name="text">
         <string>查找</string>
        </property>
@@ -34,14 +34,14 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_3">
+      <widget class="QPushButton" name="btn_delete">
        <property name="text">
         <string>删除</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_4">
+      <widget class="QPushButton" name="btn_edit">
        <property name="text">
         <string>修改</string>
        </property>

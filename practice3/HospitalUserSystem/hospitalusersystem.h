@@ -30,7 +30,7 @@ public slots:
     void goDoctorView();
     void goDepartmentView();
     void goPatientView();
-    void goPatientEditView();
+    void goPatientEditView(int index);
     void goPreviousView();
     void pushWidgetToStackView(QWidget* widget);
 

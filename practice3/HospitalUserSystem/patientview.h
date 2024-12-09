@@ -2,6 +2,7 @@
 #define PATIENTVIEW_H
 
 #include <QWidget>
+#include "database.h"
 
 namespace Ui {
 class PatientView;
@@ -16,10 +17,16 @@ public:
     ~PatientView();
 
 signals:
-    void goPatientEdit();
+    void goPatientEdit(int index);
 
 private slots:
     void on_pushButton_2_clicked();
+
+    void on_btn_find_clicked();
+
+    void on_btn_delete_clicked();
+
+    void on_btn_edit_clicked();
 
 private:
     Ui::PatientView *ui;

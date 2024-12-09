@@ -10,5 +10,9 @@
 #include <QSqlTableModel>
 #include <QSqlRecord>
 #include <QObject>
+#include <QItemSelectionModel>
+#include <QDateTime>
+#include <QUuid>
+#include <QDataWidgetMapper>
 
 #endif // COMMON_H
