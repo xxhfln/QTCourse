@@ -14,9 +14,6 @@ void DataBase::initDataBase()
     // 设置数据库
     QString db_path = "F:/SQLServerDataBase/Lab4.db";
     db.setDatabaseName(db_path);
-//    db.setDatabaseName("‪Lab4.db");
-//    db.setUserName("xiexiaohui");
-//    db.setPassword("123456");
 
     // 打开数据库
     if (!db.open()){
@@ -25,8 +22,6 @@ void DataBase::initDataBase()
     }else {
         qDebug() << "连接成功 connect to mysql OK";
     }
-    // 设置模型
-    //    model = new QSqlTableModel(this);
 }
 
 bool DataBase::initPatientModel()
@@ -51,7 +46,6 @@ QString DataBase::userLogin(QString username, QString password)
     QString qs = QString("select * from User where USERNAME = '%1' and PASSWORD = '%2'").arg(username).arg(password);
 
     query.exec(qs);
-//    qDebug()<<query.size();
 
     if (query.next()){
         return "LoginSuccess";

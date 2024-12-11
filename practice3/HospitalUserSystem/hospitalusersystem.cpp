@@ -51,7 +51,7 @@ void HospitalUserSystem::goDepartmentView()
 
 void HospitalUserSystem::goPatientView()
 {
-    PatientView* pa = new PatientView();
+    PatientView* pa = new PatientView(this);
     goView(pa);
     connect(pa,SIGNAL(goPatientEdit(int)),this,SLOT(goPatientEditView(int)));
 }
@@ -90,6 +90,7 @@ void HospitalUserSystem::on_stackedWidget_currentChanged(int arg1)
     ui->btn_back->setEnabled(ui->stackedWidget->currentWidget()->windowTitle() != "患者编辑");
     ui->btn_exit->setEnabled(ui->stackedWidget->currentWidget()->windowTitle() != "患者编辑");
 //    qDebug()<<"11";
+    qDebug() <<"count:"<<ui->stackedWidget->count();
 }
 
 
