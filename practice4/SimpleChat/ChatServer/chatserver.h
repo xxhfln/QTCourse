@@ -12,10 +12,10 @@ public:
     explicit ChatServer(QObject *parent = nullptr);
 
 protected:
-void incomingConnection(qintptr socketDescriptor) override;
-QVector<ServerWorker *>m_clients;
+    void incomingConnection(qintptr socketDescriptor) override;
+    QVector<ServerWorker *>m_clients;
 
-void broadcast(const QJsonObject &message,ServerWorker *exclude);
+    void broadcast(const QJsonObject &message,ServerWorker *exclude);
 
 signals:
     void logMessage(const QString &msg);

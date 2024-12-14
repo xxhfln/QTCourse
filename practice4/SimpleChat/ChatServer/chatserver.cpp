@@ -23,7 +23,7 @@ void ChatServer::incomingConnection(qintptr socketDescriptor)
     connect(worker,&ServerWorker::disconnectedFromClient,this,
             std::bind(&ChatServer::userDisconnected,this,worker));
     m_clients.append(worker);
-    emit logMessage("新的用户连接上了");
+    emit logMessage("有新的用户连接");
 }
 
 void ChatServer::broadcast(const QJsonObject &message, ServerWorker *exclude)
@@ -40,10 +40,11 @@ void ChatServer::stopServer()
 
 void ChatServer::jsonReceived(ServerWorker *sender, const QJsonObject &docObj)
 {
-        qDebug() << "Received JSON1:" << docObj;
+    qDebug() << "Received JSON1:" << docObj;
     const QJsonValue &typeVal=docObj.value("type");
-    if(typeVal.isNull()||!typeVal.isString())
+    if(typeVal.isNull()||!typeVal.isString()){
         return;
+    }
 
 
     if(typeVal.toString().contains("message")){
@@ -59,7 +60,7 @@ void ChatServer::jsonReceived(ServerWorker *sender, const QJsonObject &docObj)
         message["type"]="message";
         message["text"]=text;
         message["sender"]=sender->userName();
-    qDebug() << "Received JSON1:" << message;
+        qDebug() << "Received JSON1:" << message;
         broadcast(message,sender);
     }
     else if(typeVal.toString().compare("login",Qt::CaseInsensitive)==0){
@@ -95,7 +96,7 @@ void ChatServer::userDisconnected(ServerWorker *sender)
         disconnectedMessage["type"]="userdisconnected";
         disconnectedMessage["username"]=userName;
         broadcast(disconnectedMessage,nullptr);
-        emit logMessage(userName+"disconnected");
+        emit logMessage(userName+"disconnect");
     }
     sender->deleteLater();
 }

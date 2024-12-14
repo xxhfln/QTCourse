@@ -16,9 +16,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_chatClient,&ChatClient::connected,this,&MainWindow::connectedToServer);
     // connect(m_chatClient,&ChatClient::messageReceived,this,&MainWindow::messageReceived);
     connect(m_chatClient,&ChatClient::jsonReceived,this,&MainWindow::jsonReceived);
-
-
-
 }
 
 MainWindow::~MainWindow()
@@ -28,8 +25,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_sayButton_clicked()
 {
-    if(!ui->sayLineEdit->text().isEmpty())
+    if(!ui->sayLineEdit->text().isEmpty()){
         m_chatClient->sendMessage(ui->sayLineEdit->text(),"message");
+    }
 }
 
 

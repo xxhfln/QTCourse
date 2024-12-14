@@ -38,9 +38,6 @@ void ServerWorker::onReadyRead()
         socketStream >> jsonData;
         if(socketStream.commitTransaction())
         {
-            // emit logMessage(QString::fromUtf8(jsonData));
-            // sendMessage("I recieved message");
-
             QJsonParseError parseError;
             const QJsonDocument jsonDoc=QJsonDocument::fromJson(jsonData,&parseError);
             if(parseError.error==QJsonParseError::NoError){
@@ -49,11 +46,10 @@ void ServerWorker::onReadyRead()
                     emit jsonReceived(this,jsonDoc.object());
                 }
             }
-    }
-        else{
+        }else {
             break;
+        }
     }
-}
 }
 
 
@@ -66,14 +62,11 @@ void ServerWorker::sendMessage(const QString &text, const QString &type)
     if(!text.isEmpty()){
 
         QDataStream serverStream(m_serverSocket);
-        serverStream.setVersion(QDataStream::Qt_5_12);
-
-
+        serverStream.setVersion(QDataStream::Qt_5_15);
 
         QJsonObject message;
         message["type"] = type;
         message["text"] = text;
-
 
         serverStream << QJsonDocument(message).toJson();
     }
