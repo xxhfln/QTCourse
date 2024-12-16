@@ -17,18 +17,14 @@ void ChatClient::onReadyRead()
     QDataStream socketStream(m_clientSocket);
     socketStream.setVersion(QDataStream::Qt_5_12);
     //
-    for(;;){
-        socketStream.startTransaction();
-        socketStream >> jsonData;
-        if(socketStream.commitTransaction())
-        {
-            // emit messageReceived(QString::fromUtf8(jsonData));
-
+    for(;;){ // 无限循环，用于持续读取数据
+        socketStream.startTransaction(); // 在数据流上开始一个事务
+        socketStream >> jsonData; // 从套接字读取 JSON 数据到 QByteArray
+        if(socketStream.commitTransaction()){ // 该函数用来确认事务是否成功
             QJsonParseError parseError;
             const QJsonDocument jsonDoc=QJsonDocument::fromJson(jsonData,&parseError);
             if(parseError.error==QJsonParseError::NoError){
                 if(jsonDoc.isObject()){
-                    // emit logMessage(QJsonDocument(jsonDoc).toJson(QJsonDocument::Compact));
                     emit jsonReceived(jsonDoc.object());
                 }
             }

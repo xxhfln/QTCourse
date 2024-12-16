@@ -43,7 +43,7 @@ void MainWindow::on_logoutButton_clicked()
     ui->stackedWidget->setCurrentWidget(ui->Loginpage);
 
     for(auto aItem:ui->userListWidget->findItems(ui->usernameEdit->text(),Qt::MatchExactly)){
-        qDebug("remove");
+        qDebug("remove user");
         ui->userListWidget->removeItemWidget(aItem);
         delete aItem;
     }
