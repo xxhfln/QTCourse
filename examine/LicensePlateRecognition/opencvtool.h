@@ -10,7 +10,8 @@ public:
     OpenCVTool();
     ~OpenCVTool();
 
-    static QImage MatToQImage()
+    static QImage MatToQImage(const cv::Mat &cvImage);
+    static cv::Mat QImageToMat(const QImage &qImage);
 };
 
 #endif // OPENCVTOOL_H
