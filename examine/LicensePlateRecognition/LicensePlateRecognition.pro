@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -10,10 +10,13 @@ CONFIG += c++17
 
 SOURCES += \
     main.cpp \
-    licenseplaterecognition.cpp
+    licenseplaterecognition.cpp \
+    opencvtool.cpp
 
 HEADERS += \
-    licenseplaterecognition.h
+    common.h \
+    licenseplaterecognition.h \
+    opencvtool.h
 
 FORMS += \
     licenseplaterecognition.ui
@@ -22,3 +25,8 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+
+# 配置opencv
+INCLUDEPATH += D:\OpenCV\opencv\build_opencv\install\include
+LIBS += D:\OpenCV\opencv\build_opencv\install\x64\mingw\bin\libopencv_*.dll

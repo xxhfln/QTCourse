@@ -2,6 +2,8 @@
 #define LICENSEPLATERECOGNITION_H
 
 #include <QMainWindow>
+#include "common.h"
+#include "opencvtool.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class LicensePlateRecognition; }
