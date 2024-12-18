@@ -17,7 +17,13 @@ public:
     LicensePlateRecognition(QWidget *parent = nullptr);
     ~LicensePlateRecognition();
 
+private slots:
+    void on_select_btn_clicked();
+
 private:
     Ui::LicensePlateRecognition *ui;
+
+    QImage image;
+    QPixmap pixmap;
 };
 #endif // LICENSEPLATERECOGNITION_H
