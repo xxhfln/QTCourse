@@ -12,7 +12,12 @@ Recognition::~Recognition()
 
 cv::Mat Recognition::getCarNumberBorder(cv::Mat &image)
 {
+    if (image.empty()){
+        QMessageBox::critical(nullptr,"ERROR","Input image is not a valid binary image!");
+        return cv::Mat();
+    }
     cv::Mat img_HSV = image.clone();
+    cv::Mat img_clone = image.clone();
     cv::Mat img_t = image.clone();
 
     cv::Mat img2_gauss;
@@ -47,7 +52,7 @@ cv::Mat Recognition::getCarNumberBorder(cv::Mat &image)
     cv::dilate(img_temo, img_temo, kernelY);
     // 平滑去噪处理,使边缘检测更准确
     cv::GaussianBlur(img_temo, img_temo, cv::Size(15,0),1);
-    cv::imshow("tests6",img_temo);
+//    cv::imshow("tests6",img_temo);
 
     std::vector<std::vector<cv::Point>> contours;
     std::vector<cv::Vec4i> vec_4f;
@@ -55,7 +60,6 @@ cv::Mat Recognition::getCarNumberBorder(cv::Mat &image)
     cv::findContours(img_temo, contours, vec_4f, cv::RETR_TREE, cv::CHAIN_APPROX_SIMPLE);
 
     cv::Mat plate;
-    int j = 0;
     std::vector<std::vector<cv::Point>> contours_1;
     cv::Rect rect_1;
     for (int i = 0;i < contours.size();i++){
@@ -63,17 +67,65 @@ cv::Mat Recognition::getCarNumberBorder(cv::Mat &image)
         cv::Rect rect = cv::boundingRect(contours[i]);
         int area = rect.height * rect.width;
         if (rect.width > (rect.height * 2.3) && area > 10000){
-//            plate = img_HSV(cv::Rect(rect.x,rect.y,rect.width,rect.width)); // 区域提取
-            plate = img_HSV.clone(); // 区域提取
+            plate = img_clone(cv::Rect(rect.x,rect.y,rect.width,rect.height)); // 区域提取
             // 将提取出来的区域拿绿色矩形围起来
-            cv::rectangle(plate,cv::Point(rect.x,rect.y),cv::Point(rect.x+rect.width,rect.y+rect.height)
+            cv::rectangle(img_HSV,cv::Point(rect.x,rect.y),cv::Point(rect.x+rect.width,rect.y+rect.height)
                           ,cv::Scalar(0,255,0),3);
             rect_1 = rect;
             contours_1.push_back(contours[i]);
         }
     }
-
+    cv::imshow("plate",img_HSV);
     return plate;
+}
+
+cv::Mat Recognition::getLicensePlateROI(cv::Mat &src)
+{
+    if (src.empty()){
+        QMessageBox::critical(nullptr,"ERROR","Input image is not a valid binary image!");
+        return cv::Mat();
+    }
+    cv::Mat gray;
+    cv::cvtColor(src, gray, cv::COLOR_BGR2GRAY);
+    cv::Mat thresh;
+    cv::threshold(gray, thresh, 0, 255, cv::THRESH_OTSU);
+
+    // 形态学开操作去除小轮廓
+    cv::Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(2,2));
+    cv::Mat open;
+    cv::morphologyEx(thresh, open, cv::MORPH_OPEN, kernel);
+
+    int black_count = 0,white_count = 0;
+    PixelCounter(open, black_count, white_count);
+    qDebug() << "黑像素点：" << black_count << " 白像素点：" << white_count;
+    if (black_count < white_count){
+        cv::bitwise_not(open, open); // 反转黑白像素点
+    }
+
+    return open;
+}
+
+bool Recognition::PixelCounter(const cv::Mat &img, int &blackCount, int &whiteCount)
+{
+    // 检查图像是否为二值化图像（只有两种像素值）
+    if (img.empty() || img.type() != CV_8UC1){
+        QMessageBox::critical(nullptr,"ERROR","Input image is not a valid binary image!");
+        return false;
+    }
+    blackCount = whiteCount = 0; // 清零
+
+    // 遍历每个像素
+    for (int i = 0;i < img.rows;++i){
+        for (int j = 0;j < img.cols;++j){
+            if (img.at<uchar>(i,j) == 0){
+                ++blackCount;
+            }else {
+                ++whiteCount;
+            }
+        }
+    }
+
+    return true;
 }
 
 void Recognition::startRecognition(const QImage &image)
@@ -82,5 +134,8 @@ void Recognition::startRecognition(const QImage &image)
     cv::imshow("demo",cv_image);
 
     cv::Mat plate = getCarNumberBorder(cv_image);
-    cv::imshow("plate",plate);
+    cv::imshow("plate_ROI",plate);
+
+    cv::Mat thresh = getLicensePlateROI(plate);
+    cv::imshow("plate_ROI_thresh",thresh);
 }
