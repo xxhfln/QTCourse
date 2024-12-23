@@ -6,11 +6,22 @@ LicensePlateRecognition::LicensePlateRecognition(QWidget *parent)
     , ui(new Ui::LicensePlateRecognition)
 {
     ui->setupUi(this);
+
+    initProgram();
 }
 
 LicensePlateRecognition::~LicensePlateRecognition()
 {
     delete ui;
+}
+
+void LicensePlateRecognition::initProgram()
+{
+    recognition = new Recognition();
+    connect(this,&LicensePlateRecognition::startRecognition,recognition,&Recognition::startRecognition);
+    connect(recognition,&Recognition::recognitionResult,this,&LicensePlateRecognition::receiveRecognitionResult);
+
+    ui->recognition_btn->setEnabled(false);
 }
 
 
@@ -20,11 +31,24 @@ void LicensePlateRecognition::on_select_btn_clicked()
                                                     "../LicensePlateRecognition/image",
                                                     "Images(*.jpg *.png *.jpeg *.bmp)");
     if (filename.isEmpty()){
-        QMessageBox::information(this,"warn","文件路径为空");
+        qDebug() << "文件路径为空";
         return;
     }
     image.load(filename);
     pixmap = QPixmap::fromImage(image);
     ui->image_label->setPixmap(pixmap);
+
+    ui->recognition_btn->setEnabled(true);
+}
+
+void LicensePlateRecognition::receiveRecognitionResult(const QString &msg)
+{
+    ui->textEdit->setText(msg);
+}
+
+
+void LicensePlateRecognition::on_recognition_btn_clicked()
+{
+    emit startRecognition(this->image);
 }
 

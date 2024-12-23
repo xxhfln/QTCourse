@@ -11,12 +11,14 @@ CONFIG += c++17
 SOURCES += \
     main.cpp \
     licenseplaterecognition.cpp \
-    opencvtool.cpp
+    opencvtool.cpp \
+    recognition.cpp
 
 HEADERS += \
     common.h \
     licenseplaterecognition.h \
-    opencvtool.h
+    opencvtool.h \
+    recognition.h
 
 FORMS += \
     licenseplaterecognition.ui
@@ -30,3 +32,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 # 配置opencv
 INCLUDEPATH += D:\OpenCV\opencv\build_opencv\install\include
 LIBS += D:\OpenCV\opencv\build_opencv\install\x64\mingw\bin\libopencv_*.dll
+
+RESOURCES += \
+    res.qrc
