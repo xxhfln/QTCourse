@@ -36,7 +36,7 @@ cv::Mat Recognition::getCarNumberBorder(cv::Mat &image)
     cv::Mat kernelY;
     cv::Mat kernelX = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(17,5));
     cv::morphologyEx(img_temo, img_temo, cv::MORPH_CLOSE, kernelX);
-    cv::imshow("tests5",img_temo);
+//    cv::imshow("tests5",img_temo);
     //用矩形来封闭
     kernelX = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(20, 1));
     kernelY = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(1, 19));
@@ -63,15 +63,16 @@ cv::Mat Recognition::getCarNumberBorder(cv::Mat &image)
         cv::Rect rect = cv::boundingRect(contours[i]);
         int area = rect.height * rect.width;
         if (rect.width > (rect.height * 2.3) && area > 10000){
-            plate = img_HSV(cv::Rect(rect.x,rect.y,rect.width,rect.width)); // 区域提取
+//            plate = img_HSV(cv::Rect(rect.x,rect.y,rect.width,rect.width)); // 区域提取
+            plate = img_HSV.clone(); // 区域提取
             // 将提取出来的区域拿绿色矩形围起来
             cv::rectangle(plate,cv::Point(rect.x,rect.y),cv::Point(rect.x+rect.width,rect.y+rect.height)
-                          ,cv::Scalar(0,255,0),1);
+                          ,cv::Scalar(0,255,0),3);
             rect_1 = rect;
             contours_1.push_back(contours[i]);
         }
     }
-    qDebug() << "1";
+
     return plate;
 }
 
@@ -80,5 +81,6 @@ void Recognition::startRecognition(const QImage &image)
     cv::Mat cv_image = OpenCVTool::QImageToMat(image);
     cv::imshow("demo",cv_image);
 
-    getCarNumberBorder(cv_image);
+    cv::Mat plate = getCarNumberBorder(cv_image);
+    cv::imshow("plate",plate);
 }
