@@ -11,6 +11,7 @@ class Recognition: public QObject
 public:
     Recognition();
     ~Recognition();
+    cv::Mat getCarNumberBorder(cv::Mat &image);
 
 signals:
     void recognitionResult(const QString &msg);

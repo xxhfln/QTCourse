@@ -1,6 +1,11 @@
 #ifndef COMMON_H
 #define COMMON_H
 
+// C++ System
+#include <vector>
+#include <memory>
+
+// Qt include
 #include <QDebug>
 #include <QString>
 #include <QLabel>
