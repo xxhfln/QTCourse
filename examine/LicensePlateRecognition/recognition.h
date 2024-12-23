@@ -14,6 +14,7 @@ public:
     cv::Mat getCarNumberBorder(cv::Mat &image);
     cv::Mat getLicensePlateROI(cv::Mat &src);
     bool PixelCounter(const cv::Mat& img, int& blackCount, int& whiteCount);
+    cv::Mat HoriconCut(cv::Mat& image);
 
 signals:
     void recognitionResult(const QString &msg);

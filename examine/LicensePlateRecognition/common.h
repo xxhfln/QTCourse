@@ -14,6 +14,7 @@
 #include <QFileInfo>
 #include <QImage>
 #include <QPixmap>
+#include <QVector>
 
 // SQL include
 #include <QSqlDatabase>

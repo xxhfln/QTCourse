@@ -128,6 +128,52 @@ bool Recognition::PixelCounter(const cv::Mat &img, int &blackCount, int &whiteCo
     return true;
 }
 
+cv::Mat Recognition::HoriconCut(cv::Mat &image)
+{
+    // 检查图像是否为二值化图像（只有两种像素值）
+    if (image.empty() || image.type() != CV_8UC1){
+        QMessageBox::critical(nullptr,"ERROR","Input image is not a valid binary image!");
+        return cv::Mat();
+    }
+    cv::Mat temp = image.clone();
+    int rows = temp.rows;
+    int cols = temp.cols;
+
+    QVector<int> white_n;
+    for(int row = 0;row < rows;++row){
+        int tem = 0;
+        for(int col = 0;col < cols;++col){
+            if (temp.at<uchar>(row,col) > 0){
+                ++tem;
+            }
+        }
+        white_n.append(tem);
+    }
+
+    int mid = 0;
+    for (int i = 0;i < rows/2;++i){
+        mid += white_n[i];
+    }
+    mid = mid/(rows/2 + 1);
+
+    int i_0 = 0, i_1 = 0;
+    for(int i = rows/2;i >= 2;--i){
+        if (white_n[i] < mid){
+            i_0 = i;
+            break;
+        }
+    }
+    for(int i = rows/2;i < rows;++i){
+        if (white_n[i] < mid){
+            i_1 = i;
+            break;
+        }
+    }
+    cv::Mat test = temp(cv::Range(i_0,i_1),cv::Range(0,cols));
+
+    return test;
+}
+
 void Recognition::startRecognition(const QImage &image)
 {
     cv::Mat cv_image = OpenCVTool::QImageToMat(image);
@@ -138,4 +184,7 @@ void Recognition::startRecognition(const QImage &image)
 
     cv::Mat thresh = getLicensePlateROI(plate);
     cv::imshow("plate_ROI_thresh",thresh);
+
+    cv::Mat cut = HoriconCut(thresh);
+    cv::imshow("cut",cut);
 }
