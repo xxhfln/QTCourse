@@ -2,12 +2,56 @@
 
 Recognition::Recognition()
 {
-
+    initFilePaths();
 }
 
 Recognition::~Recognition()
 {
 
+}
+
+void Recognition::initFilePaths()
+{
+    char_filepaths.resize(34);
+    chinese_filepaths.resize(31);
+    char_filepaths.clear();
+    chinese_filepaths.clear();
+    QString pre = "../LicensePlateRecognition/refer1/";
+    for(int i = 0;i < 34;++i){
+        QString path = pre + chars[i];
+        getFilesInDirectory(path,i,this->char_filepaths);
+    }
+    for(int i = 0;i < 31;++i){
+        QString path = pre + chineses[i];
+        getFilesInDirectory(path,i,this->chinese_filepaths);
+    }
+
+    for(int i = 0;i < char_filepaths.size();i++){
+        for (QString& path : char_filepaths[i]){
+            qDebug()<<path;
+        }
+    }
+    for(int i = 0;i < chinese_filepaths.size();i++){
+        for (QString& path : chinese_filepaths[i]){
+            qDebug()<<path;
+        }
+    }
+}
+
+void Recognition::getFilesInDirectory(const QString &dir_path, const int &index, QVector<QVector<QString> > &paths)
+{
+    QDir dir(dir_path);
+    if (!dir.exists()){
+        qWarning() << "Directory does not exist!";
+        return;
+    }
+
+    QStringList files = dir.entryList(QDir::Files | QDir::NoDotAndDotDot);
+    QVector<QString> temp;
+    for(const QString& file : files){
+        temp.push_back(dir.absoluteFilePath(file));
+    }
+    paths.push_back(temp);
 }
 
 cv::Mat Recognition::getCarNumberBorder(cv::Mat &image)
