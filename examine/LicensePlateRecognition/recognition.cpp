@@ -174,6 +174,49 @@ cv::Mat Recognition::HoriconCut(cv::Mat &image)
     return test;
 }
 
+QVector<QVector<int> > Recognition::RemoveVertialBorder(cv::Mat &image)
+{
+    // 检查图像是否为二值化图像（只有两种像素值）
+    if (image.empty() || image.type() != CV_8UC1){
+        QMessageBox::critical(nullptr,"ERROR","Input image is not a valid binary image!");
+        return QVector<QVector<int>>();
+    }
+    cv::Mat temp = image.clone();
+    int rows = temp.rows;
+    int cols = temp.cols;
+
+    QVector<int> white_n;
+    for(int col = 0;col < cols;++col){
+        int tem = 0;
+        for(int row = 0;row < rows;++row){
+            if (temp.at<uchar>(row,col) > 0){
+                ++tem;
+            }
+        }
+        white_n.append(tem);
+    }
+    QVector<QVector<int>> region1;
+    QVector<int> reg;
+    if (white_n[0] != 0){
+        reg.append(0);
+    }
+    for(int i = 0;i < cols - 1;++i){
+        if (white_n[i] == 0 && white_n[i+1] != 0){
+            reg.append(i);
+        }
+        if (white_n[i] != 0 && white_n[i+1] == 0){
+            reg.append(i+1);
+        }
+        if (reg.size() == 2){
+            if (reg[1] - reg[0] > 10){
+                region1.append(reg);
+            }
+            reg.clear();
+        }
+    }
+    return region1;
+}
+
 void Recognition::startRecognition(const QImage &image)
 {
     cv::Mat cv_image = OpenCVTool::QImageToMat(image);
@@ -187,4 +230,15 @@ void Recognition::startRecognition(const QImage &image)
 
     cv::Mat cut = HoriconCut(thresh);
     cv::imshow("cut",cut);
+
+    QVector<QVector<int>> t = RemoveVertialBorder(cut);
+    int j = 0;
+    for(int i = 0;i < t.size();++i){
+        cv::Mat str = cut(cv::Range(0,cut.rows),cv::Range(t[i][0],t[i][1]));
+        ++j;
+        QString t_s = QString::number(j);
+        std::string s = std::string((const char *)t_s.toLocal8Bit());
+        cv::imwrite("../LicensePlateRecognition/car_each_number/" + s + ".jpg",str);
+        cv::imshow(s,str);
+    }
 }
