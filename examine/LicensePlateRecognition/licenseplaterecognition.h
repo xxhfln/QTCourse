@@ -20,7 +20,7 @@ public:
     void initProgram();
 
 signals:
-    void startRecognition(const QImage &image);
+    void startRecognition(const QString &filename);
 
 private slots:
     void on_select_btn_clicked();
@@ -34,5 +34,6 @@ private:
 
     QImage image;
     QPixmap pixmap;
+    QString filename;
 };
 #endif // LICENSEPLATERECOGNITION_H

@@ -26,16 +26,16 @@ void Recognition::initFilePaths()
         getFilesInDirectory(path,i,this->chinese_filepaths);
     }
 
-    for(int i = 0;i < char_filepaths.size();i++){
-        for (QString& path : char_filepaths[i]){
-            qDebug()<<path;
-        }
-    }
-    for(int i = 0;i < chinese_filepaths.size();i++){
-        for (QString& path : chinese_filepaths[i]){
-            qDebug()<<path;
-        }
-    }
+//    for(int i = 0;i < char_filepaths.size();i++){
+//        for (QString& path : char_filepaths[i]){
+//            qDebug()<<path;
+//        }
+//    }
+//    for(int i = 0;i < chinese_filepaths.size();i++){
+//        for (QString& path : chinese_filepaths[i]){
+//            qDebug()<<path;
+//        }
+//    }
 }
 
 void Recognition::getFilesInDirectory(const QString &dir_path, const int &index, QVector<QVector<QString> > &paths)
@@ -57,7 +57,7 @@ void Recognition::getFilesInDirectory(const QString &dir_path, const int &index,
 cv::Mat Recognition::getCarNumberBorder(cv::Mat &image)
 {
     if (image.empty()){
-        QMessageBox::critical(nullptr,"ERROR","Input image is not a valid binary image!");
+        QMessageBox::critical(nullptr,"getCarNumberBorder ERROR","Input image is not a valid binary image!");
         return cv::Mat();
     }
     cv::Mat img_HSV = image.clone();
@@ -119,14 +119,14 @@ cv::Mat Recognition::getCarNumberBorder(cv::Mat &image)
             contours_1.push_back(contours[i]);
         }
     }
-    cv::imshow("plate",img_HSV);
+//    cv::imshow("plate",img_HSV);
     return plate;
 }
 
 cv::Mat Recognition::getLicensePlateROI(cv::Mat &src)
 {
     if (src.empty()){
-        QMessageBox::critical(nullptr,"ERROR","Input image is not a valid binary image!");
+        QMessageBox::critical(nullptr,"getLicensePlateROI ERROR","Input image is not a valid binary image!");
         return cv::Mat();
     }
     cv::Mat gray;
@@ -153,7 +153,7 @@ bool Recognition::PixelCounter(const cv::Mat &img, int &blackCount, int &whiteCo
 {
     // 检查图像是否为二值化图像（只有两种像素值）
     if (img.empty() || img.type() != CV_8UC1){
-        QMessageBox::critical(nullptr,"ERROR","Input image is not a valid binary image!");
+        QMessageBox::critical(nullptr,"PixelCounter ERROR","Input image is not a valid binary image!");
         return false;
     }
     blackCount = whiteCount = 0; // 清零
@@ -176,7 +176,7 @@ cv::Mat Recognition::HoriconCut(cv::Mat &image)
 {
     // 检查图像是否为二值化图像（只有两种像素值）
     if (image.empty() || image.type() != CV_8UC1){
-        QMessageBox::critical(nullptr,"ERROR","Input image is not a valid binary image!");
+        QMessageBox::critical(nullptr,"HoriconCut ERROR","Input image is not a valid binary image!");
         return cv::Mat();
     }
     cv::Mat temp = image.clone();
@@ -222,7 +222,7 @@ QVector<QVector<int> > Recognition::RemoveVertialBorder(cv::Mat &image)
 {
     // 检查图像是否为二值化图像（只有两种像素值）
     if (image.empty() || image.type() != CV_8UC1){
-        QMessageBox::critical(nullptr,"ERROR","Input image is not a valid binary image!");
+        QMessageBox::critical(nullptr,"RemoveVertialBorder ERROR","Input image is not a valid binary image!");
         return QVector<QVector<int>>();
     }
     cv::Mat temp = image.clone();
@@ -261,19 +261,94 @@ QVector<QVector<int> > Recognition::RemoveVertialBorder(cv::Mat &image)
     return region1;
 }
 
-void Recognition::startRecognition(const QImage &image)
+QString Recognition::fontMatch()
 {
-    cv::Mat cv_image = OpenCVTool::QImageToMat(image);
-    cv::imshow("demo",cv_image);
+    cv::Mat temp = cv::imread("../LicensePlateRecognition/car_each_number/1.jpg");
+    cv::cvtColor(temp,temp,cv::COLOR_BGR2GRAY);
+    cv::threshold(temp,temp,0,255,cv::THRESH_OTSU);
+    QString str;
+    QVector<double> score;
+    for(int i = 0;i < 31;++i){
+        double Max = 0;
+        for(int j = 0;j < chinese_filepaths[i].size();++j){
+            std::string str_ = std::string((const char*)chinese_filepaths[i][j].toLocal8Bit());
+            cv::Mat temo = cv::imread(str_);
+            cv::cvtColor(temo,temo,cv::COLOR_BGR2GRAY);
+            cv::threshold(temo,temo,0,255,cv::THRESH_OTSU);
+            double maxValue = do_read(temo,temp);
+            Max = maxValue > Max?maxValue:Max;
+        }
+        score.append(Max);
+    }
+
+    int posmax = getVectorMaxIndex(score);
+    str.append(chineses[posmax]);
+
+    for(int i = 2;i <= 7;++i){
+        QString str_1 = "../LicensePlateRecognition/car_each_number/" + QString::number(i) + ".jpg";
+        temp = cv::imread(std::string((const char*)str_1.toLocal8Bit()));
+        cv::cvtColor(temp,temp,cv::COLOR_BGR2GRAY);
+        cv::threshold(temp,temp,0,255,cv::THRESH_OTSU);
+        score.clear();
+        for(int i_ = 0;i_ < 34;++i_){
+            double Max = 0;
+            for(int j = 0;j < char_filepaths[i_].size();++j){
+                std::string str_ = std::string((const char*)char_filepaths[i_][j].toLocal8Bit());
+                cv::Mat temo = cv::imread(str_);
+                cv::cvtColor(temo,temo,cv::COLOR_BGR2GRAY);
+                cv::threshold(temo,temo,0,255,cv::THRESH_OTSU);
+                double maxValue = do_read(temo,temp);
+                Max = maxValue > Max?maxValue:Max;
+            }
+            score.append(Max);
+        }
+        posmax = getVectorMaxIndex(score);
+        str.append(chars[posmax]);
+    }
+
+    return str;
+}
+
+double Recognition::do_read(cv::Mat temo, cv::Mat src)
+{
+    if (temo.empty() || src.empty()){
+        QMessageBox::critical(nullptr,"do_read ERROR","Input image is not a valid binary image!");
+        return 0.0f;
+    }
+    int height = temo.size().height;
+    int width = temo.size().width;
+
+    cv::Mat image = src.clone();
+    cv::resize(image,image,cv::Size(width,height));
+    cv::Mat result;
+
+    cv::matchTemplate(image,temo,result,cv::TM_CCOEFF);
+    // 求解最大值
+    double minValue,maxValue;
+    cv::Point minLocation,maxLocation;
+    cv::minMaxLoc(result,&minValue,&maxValue,&minLocation,&maxLocation);
+    return maxValue;
+}
+
+int Recognition::getVectorMaxIndex(const QVector<double> &vec)
+{
+    auto maxIter = std::max_element(vec.begin(),vec.end());
+    return std::distance(vec.begin(),maxIter);
+}
+
+void Recognition::startRecognition(const QString &filename)
+{
+    cv::Mat cv_image = cv::imread(std::string((const char*)filename.toLocal8Bit()));
+//    cv::imshow("demo",cv_image);
 
     cv::Mat plate = getCarNumberBorder(cv_image);
-    cv::imshow("plate_ROI",plate);
+//    cv::imshow("plate_ROI",plate);
 
     cv::Mat thresh = getLicensePlateROI(plate);
-    cv::imshow("plate_ROI_thresh",thresh);
+//    cv::imshow("plate_ROI_thresh",thresh);
 
     cv::Mat cut = HoriconCut(thresh);
-    cv::imshow("cut",cut);
+//    cv::imshow("cut",cut);
 
     QVector<QVector<int>> t = RemoveVertialBorder(cut);
     int j = 0;
@@ -283,6 +358,10 @@ void Recognition::startRecognition(const QImage &image)
         QString t_s = QString::number(j);
         std::string s = std::string((const char *)t_s.toLocal8Bit());
         cv::imwrite("../LicensePlateRecognition/car_each_number/" + s + ".jpg",str);
-        cv::imshow(s,str);
+//        cv::imshow(s,str);
     }
+
+    QString result = fontMatch();
+    qDebug() << "result:" << result;
+    emit recognitionResult(result);
 }

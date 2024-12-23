@@ -27,9 +27,9 @@ void LicensePlateRecognition::initProgram()
 
 void LicensePlateRecognition::on_select_btn_clicked()
 {
-    QString filename = QFileDialog::getOpenFileName(this,"选择图片",
+    filename = QFileDialog::getOpenFileName(this,"选择图片",
                                                     "../LicensePlateRecognition/image",
-                                                    "Images(*.jpg *.png *.jpeg *.bmp)");
+                                                    "Images(*.jpg *.png *.jpeg *.bmp *.webp)");
     if (filename.isEmpty()){
         qDebug() << "文件路径为空";
         return;
@@ -49,6 +49,6 @@ void LicensePlateRecognition::receiveRecognitionResult(const QString &msg)
 
 void LicensePlateRecognition::on_recognition_btn_clicked()
 {
-    emit startRecognition(this->image);
+    emit startRecognition(this->filename);
 }
 

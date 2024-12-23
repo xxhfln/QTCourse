@@ -18,12 +18,15 @@ public:
     bool PixelCounter(const cv::Mat& img, int& blackCount, int& whiteCount);
     cv::Mat HoriconCut(cv::Mat& image);
     QVector<QVector<int>> RemoveVertialBorder(cv::Mat& image);
+    QString fontMatch();
+    double do_read(cv::Mat temo,cv::Mat src);
+    int getVectorMaxIndex(const QVector<double>& vec);
 
 signals:
     void recognitionResult(const QString &msg);
 
 public slots:
-    void startRecognition(const QImage &image);
+    void startRecognition(const QString &filename);
 
 public:
     QString chars[34]{
