@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "common.h"
+#include "database.h"
 
 namespace Ui {
 class Login;
@@ -18,6 +19,7 @@ public:
 
 signals:
     void goRegister();
+    void LoginSuccess();
 
 private slots:
     void on_pushButton_clicked();

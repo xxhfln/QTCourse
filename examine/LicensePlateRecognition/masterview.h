@@ -18,12 +18,16 @@ public:
     explicit MasterView(QWidget *parent = nullptr);
     ~MasterView();
 
+signals:
+    void UserLoginSuccess();
+
 public slots:
     void goView(QWidget* view);
     void goLoginView();
     void goRegisterView();
     void pushWidgetToStackView(QWidget* widget);
     void goPreviousView();
+    void LoginSuccess();
 
 private:
     Ui::MasterView *ui;

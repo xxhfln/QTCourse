@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "common.h"
+#include "database.h"
 
 namespace Ui {
 class Register;

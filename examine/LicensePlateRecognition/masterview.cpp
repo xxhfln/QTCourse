@@ -27,6 +27,7 @@ void MasterView::goLoginView()
     Login* login = new Login(this);
     goView(login);
     connect(login,&Login::goRegister,this,&MasterView::goRegisterView);
+    connect(login,&Login::LoginSuccess,this,&MasterView::LoginSuccess);
 }
 
 void MasterView::goRegisterView()
@@ -54,4 +55,9 @@ void MasterView::goPreviousView()
         ui->stackedWidget->setCurrentIndex(count - 2);
         ui->label->setText(ui->stackedWidget->currentWidget()->windowTitle());
     }
+}
+
+void MasterView::LoginSuccess()
+{
+    emit UserLoginSuccess();
 }

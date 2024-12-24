@@ -25,7 +25,7 @@ void LicensePlateRecognition::initProgram()
 
     master_view = new MasterView();
     master_view->show();
-
+    connect(master_view,&MasterView::UserLoginSuccess,this,&LicensePlateRecognition::UserLoginSuccess);
     this->hide();
 }
 
@@ -55,5 +55,11 @@ void LicensePlateRecognition::receiveRecognitionResult(const QString &msg)
 void LicensePlateRecognition::on_recognition_btn_clicked()
 {
     emit startRecognition(this->filename);
+}
+
+void LicensePlateRecognition::UserLoginSuccess()
+{
+    master_view->close();
+    this->show();
 }
 

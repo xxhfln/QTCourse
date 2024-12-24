@@ -26,8 +26,8 @@ signals:
 private slots:
     void on_select_btn_clicked();
     void receiveRecognitionResult(const QString &msg);
-
     void on_recognition_btn_clicked();
+    void UserLoginSuccess();
 
 private:
     Ui::LicensePlateRecognition *ui;
