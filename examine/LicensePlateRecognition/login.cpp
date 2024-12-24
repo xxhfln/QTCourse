@@ -12,3 +12,15 @@ Login::~Login()
 {
     delete ui;
 }
+
+void Login::on_pushButton_clicked()
+{
+    emit goRegister();
+}
+
+
+void Login::on_pushButton_2_clicked()
+{
+
+}
+

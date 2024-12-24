@@ -5,6 +5,7 @@
 #include "common.h"
 #include "opencvtool.h"
 #include "recognition.h"
+#include "masterview.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class LicensePlateRecognition; }
@@ -35,5 +36,7 @@ private:
     QImage image;
     QPixmap pixmap;
     QString filename;
+
+    MasterView *master_view;
 };
 #endif // LICENSEPLATERECOGNITION_H

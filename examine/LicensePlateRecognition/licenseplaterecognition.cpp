@@ -22,6 +22,11 @@ void LicensePlateRecognition::initProgram()
     connect(recognition,&Recognition::recognitionResult,this,&LicensePlateRecognition::receiveRecognitionResult);
 
     ui->recognition_btn->setEnabled(false);
+
+    master_view = new MasterView();
+    master_view->show();
+
+    this->hide();
 }
 
 
