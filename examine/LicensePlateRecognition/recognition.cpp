@@ -25,17 +25,6 @@ void Recognition::initFilePaths()
         QString path = pre + chineses[i];
         getFilesInDirectory(path,i,this->chinese_filepaths);
     }
-
-//    for(int i = 0;i < char_filepaths.size();i++){
-//        for (QString& path : char_filepaths[i]){
-//            qDebug()<<path;
-//        }
-//    }
-//    for(int i = 0;i < chinese_filepaths.size();i++){
-//        for (QString& path : chinese_filepaths[i]){
-//            qDebug()<<path;
-//        }
-//    }
 }
 
 void Recognition::getFilesInDirectory(const QString &dir_path, const int &index, QVector<QVector<QString> > &paths)
@@ -73,19 +62,14 @@ cv::Mat Recognition::getCarNumberBorder(cv::Mat &image)
 
     cv::Sobel(img2_gray, dst_x, CV_16S, 1, 0); // 梯度算子
     cv::convertScaleAbs(dst_x, abs_X); // 将CV_16S型的输出图像转变成CV_8U型的图像
-//    cv::imshow("tests1",img2_gauss);
-//    cv::imshow("tests2",img2_gray);
-//    cv::imshow("tests3",dst_x);
 
     cv::Mat img_temo = abs_X;
     cv::threshold(img_temo, img_temo, 0, 255, cv::THRESH_OTSU); // 自适应阀值图像灰度大于阈值
-//    cv::imshow("tests4",img_temo);
 
     // 闭操作，封闭轮廓
     cv::Mat kernelY;
     cv::Mat kernelX = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(17,5));
     cv::morphologyEx(img_temo, img_temo, cv::MORPH_CLOSE, kernelX);
-//    cv::imshow("tests5",img_temo);
     //用矩形来封闭
     kernelX = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(20, 1));
     kernelY = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(1, 19));
@@ -96,7 +80,6 @@ cv::Mat Recognition::getCarNumberBorder(cv::Mat &image)
     cv::dilate(img_temo, img_temo, kernelY);
     // 平滑去噪处理,使边缘检测更准确
     cv::GaussianBlur(img_temo, img_temo, cv::Size(15,0),1);
-//    cv::imshow("tests6",img_temo);
 
     std::vector<std::vector<cv::Point>> contours;
     std::vector<cv::Vec4i> vec_4f;
@@ -104,8 +87,6 @@ cv::Mat Recognition::getCarNumberBorder(cv::Mat &image)
     cv::findContours(img_temo, contours, vec_4f, cv::RETR_TREE, cv::CHAIN_APPROX_SIMPLE);
 
     cv::Mat plate;
-    std::vector<std::vector<cv::Point>> contours_1;
-    cv::Rect rect_1;
     for (int i = 0;i < contours.size();i++){
         // 计算轮廓的垂直边界最小矩形
         cv::Rect rect = cv::boundingRect(contours[i]);
@@ -115,11 +96,8 @@ cv::Mat Recognition::getCarNumberBorder(cv::Mat &image)
             // 将提取出来的区域拿绿色矩形围起来
             cv::rectangle(img_HSV,cv::Point(rect.x,rect.y),cv::Point(rect.x+rect.width,rect.y+rect.height)
                           ,cv::Scalar(0,255,0),3);
-            rect_1 = rect;
-            contours_1.push_back(contours[i]);
         }
     }
-//    cv::imshow("plate",img_HSV);
     return plate;
 }
 
@@ -339,16 +317,12 @@ int Recognition::getVectorMaxIndex(const QVector<double> &vec)
 void Recognition::startRecognition(const QString &filename)
 {
     cv::Mat cv_image = cv::imread(std::string((const char*)filename.toLocal8Bit()));
-//    cv::imshow("demo",cv_image);
 
     cv::Mat plate = getCarNumberBorder(cv_image);
-//    cv::imshow("plate_ROI",plate);
 
     cv::Mat thresh = getLicensePlateROI(plate);
-//    cv::imshow("plate_ROI_thresh",thresh);
 
     cv::Mat cut = HoriconCut(thresh);
-//    cv::imshow("cut",cut);
 
     QVector<QVector<int>> t = RemoveVertialBorder(cut);
     int j = 0;
@@ -358,7 +332,6 @@ void Recognition::startRecognition(const QString &filename)
         QString t_s = QString::number(j);
         std::string s = std::string((const char *)t_s.toLocal8Bit());
         cv::imwrite("../LicensePlateRecognition/car_each_number/" + s + ".jpg",str);
-//        cv::imshow(s,str);
     }
 
     QString result = fontMatch();
