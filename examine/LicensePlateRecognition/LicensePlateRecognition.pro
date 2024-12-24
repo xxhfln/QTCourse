@@ -9,19 +9,30 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    database.cpp \
+    login.cpp \
     main.cpp \
     licenseplaterecognition.cpp \
+    masterview.cpp \
     opencvtool.cpp \
-    recognition.cpp
+    recognition.cpp \
+    register.cpp
 
 HEADERS += \
     common.h \
+    database.h \
     licenseplaterecognition.h \
+    login.h \
+    masterview.h \
     opencvtool.h \
-    recognition.h
+    recognition.h \
+    register.h
 
 FORMS += \
-    licenseplaterecognition.ui
+    licenseplaterecognition.ui \
+    login.ui \
+    masterview.ui \
+    register.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
